@@ -3,6 +3,7 @@ from xml.sax.xmlreader import Locator
 import sys
 import xml.sax
 import xml.sax.handler
+import logging
 
 class AimlParserError(Exception): pass
 
@@ -30,6 +31,7 @@ class AimlHandler(ContentHandler):
 		self._currentTopic   = ""
 		self._insideTopic = False
 		self._currentUnknown = "" # the name of the current unknown element
+		self._logger = logging.getLogger("pyaiml.aimlhandler")
 
 		# This is set to true when a parse error occurs in a category.
 		self._skipCurrentCategory = False
@@ -61,7 +63,7 @@ class AimlHandler(ContentHandler):
 		self.setDocumentLocator(self._locator)
 
 	def getNumErrors(self):
-		"Return the number of errors found while parsing the current document."
+		"""Return the number of errors found while parsing the current document."""
 		return self._numParseErrors
 
 	def setEncoding(self, encoding):
@@ -73,7 +75,7 @@ class AimlHandler(ContentHandler):
 		self._encoding = encoding
 
 	def _location(self):
-		"Return a string describing the current location in the source file."
+		"""Return a string describing the current location in the source file."""
 		line = self._locator.getLineNumber()
 		column = self._locator.getColumnNumber()
 		return "(line %d, column %d)" % (line, column)
@@ -96,10 +98,7 @@ class AimlHandler(ContentHandler):
 			self._whitespaceBehaviorStack.append(self._whitespaceBehaviorStack[-1])
 
 	def startElementNS(self, name, qname, attr):
-		print "QNAME:", qname
-		print "NAME:", name
 		uri,elem = name
-		if (elem == "bot"): print "name:", attr.getValueByQName("name"), "a'ite?"
 		self.startElement(elem, attr)
 		pass
 
@@ -120,7 +119,7 @@ class AimlHandler(ContentHandler):
 		try: self._startElement(name, attr)
 		except AimlParserError, msg:
 			# Print the error message
-			sys.stderr.write("PARSE ERROR: %s\n" % msg)
+			self._logger.error("Parse error: %s" % msg)
 			
 			self._numParseErrors += 1 # increment error count
 			# In case of a parse error, if we're inside a category, skip it.
@@ -254,7 +253,7 @@ class AimlHandler(ContentHandler):
 		try: self._characters(ch)
 		except AimlParserError, msg:
 			# Print the message
-			sys.stderr.write("PARSE ERROR: %s\n" % msg)
+			self._logger.error("Parse error: %s" % msg)
 			self._numParseErrors += 1 # increment error count
 			# In case of a parse error, if we're inside a category, skip it.
 			if self._state >= self._STATE_InsideCategory:
@@ -335,7 +334,7 @@ class AimlHandler(ContentHandler):
 		try: self._endElement(name)
 		except AimlParserError, msg:
 			# Print the message
-			sys.stderr.write("PARSE ERROR: %s\n" % msg)
+			self._logger.error("Parse error: %s" % msg)
 			self._numParseErrors += 1 # increment error count
 			# In case of a parse error, if we're inside a category, skip it.
 			if self._state >= self._STATE_InsideCategory:
