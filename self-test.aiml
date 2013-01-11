@@ -22,21 +22,21 @@ updating the tests in Kernel.py!
 <category>
 <pattern>TEST CONDITION NAME</pattern>
 <template>
-    <condition name="gender">
-        <li value="male">You are handsome</li>
-        <li value="female">You are beautiful</li>
-        <li>You are genderless</li>
-    </condition>
+	<condition name="gender">
+		<li value="male">You are handsome</li>
+		<li value="female">You are beautiful</li>
+		<li>You are genderless</li>
+	</condition>
 </template>
 </category>
 <category>
 <pattern>TEST CONDITION</pattern>
 <template>
-    <condition>
-        <li name="gender" value="male">You are handsome</li>
-        <li name="gender" value="female">You are beautiful</li>
-        <li>You are genderless</li>
-    </condition>
+	<condition>
+		<li name="gender" value="male">You are handsome</li>
+		<li name="gender" value="female">You are beautiful</li>
+		<li>You are genderless</li>
+	</condition>
 </template>
 </category>
 
@@ -281,8 +281,7 @@ Nothing <random></random>here!
 <category>
 <pattern>TEST WHITESPACE</pattern>
 <template xml:space="preserve">Extra   Spaces
-   Rule!   <lowercase xml:space="default">(but   not   <set name="ignored">in
-                                           here!</set>)
+   Rule!   <lowercase xml:space="default">(but   not   <set name="ignored">in here!</set>)
    </lowercase>   But   <set name="ignored">Here   They</set>   Do!</template>
 </category>
 
