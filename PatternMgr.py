@@ -6,7 +6,7 @@ import marshal
 import pprint
 import re
 import string
-import sys
+import logging
 
 class PatternMgr:
 	# special dictionary keys
@@ -24,6 +24,7 @@ class PatternMgr:
 		punctuation = "\"`~!@#$%^&*()-_=+[{]}\|;:',<.>/?"
 		self._puncStripRE = re.compile("[" + re.escape(punctuation) + "]")
 		self._whitespaceRE = re.compile("\s+", re.LOCALE | re.UNICODE)
+		self._logger = logging.getLogger('pyaiml.patternmgr')
 
 	def numTemplates(self):
 		"""Return the number of templates currently stored."""
@@ -53,7 +54,7 @@ class PatternMgr:
 			marshal.dump(self._root, outFile)
 			outFile.close()
 		except Exception, e:
-			print "Error saving PatternMgr to file %s:" % filename
+			self._logger.error("Error saving PatternMgr to file %s:" % filename)
 			raise Exception, e
 
 	def restore(self, filename):
@@ -65,7 +66,7 @@ class PatternMgr:
 			self._root = marshal.load(inFile)
 			inFile.close()
 		except Exception, e:
-			print "Error restoring PatternMgr from file %s:" % filename
+			self._logger.error("Error restoring PatternMgr from file %s:" % filename)
 			raise Exception, e
 
 	def add(self, (pattern,that,topic), template):

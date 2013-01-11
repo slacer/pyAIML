@@ -1,6 +1,5 @@
 from xml.sax.handler import ContentHandler
 from xml.sax.xmlreader import Locator
-import sys
 import xml.sax
 import xml.sax.handler
 import logging
