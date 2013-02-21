@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 """This file contains assorted general utility functions used by other
 modules in the PyAIML package.
 
