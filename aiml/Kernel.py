@@ -288,6 +288,7 @@ class Kernel:
 				self.learnfp(open(f, 'r'))
 			except xml.sax.SAXParseException, msg:
 				self._logger.info("Fatal parse error in file %s: %s" % (f, msg))
+				continue
 			# Parsing was successful.
 			self._logger.debug("Finished loading %s (%.2f seconds)" % (f, time.clock() - start))
 
