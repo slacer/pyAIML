@@ -265,6 +265,15 @@ class Kernel:
 			s = self._sessions
 		return copy.deepcopy(s)
 
+	def learnfp(self, filep):
+		parser = AimlParser.create_parser()
+		handler = parser.getContentHandler()
+		handler.setEncoding(self._textEncoding)
+		parser.parse(filep)
+		# store the pattern/template pairs in the PatternMgr.
+		for key,tem in handler.categories.items():
+			self._brain.add(key,tem)
+
 	def learn(self, filename):
 		"""Load and learn the contents of the specified AIML file.
 
@@ -275,17 +284,10 @@ class Kernel:
 			self._logger.debug("Loading %s" % f)
 			start = time.clock()
 			# Load and parse the AIML file.
-			parser = AimlParser.create_parser()
-			handler = parser.getContentHandler()
-			handler.setEncoding(self._textEncoding)
 			try:
-				parser.parse(f)
+				self.learnfp(open(f, 'r'))
 			except xml.sax.SAXParseException, msg:
 				self._logger.info("Fatal parse error in file %s: %s" % (f, msg))
-				continue
-			# store the pattern/template pairs in the PatternMgr.
-			for key,tem in handler.categories.items():
-				self._brain.add(key,tem)
 			# Parsing was successful.
 			self._logger.debug("Finished loading %s (%.2f seconds)" % (f, time.clock() - start))
 
