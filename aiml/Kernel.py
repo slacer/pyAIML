@@ -31,7 +31,7 @@ class Kernel:
 
 	def __init__(self):
 		self._verboseMode = False
-		self._version = "PyAIML 0.8.6"
+		self._version = "PyAIML 0.9.0"
 		self._brain = PatternMgr()
 		self._respondLock = threading.RLock()
 		self._textEncoding = "utf-8"
@@ -85,6 +85,7 @@ class Kernel:
 			"topicstar":    self._processTopicstar,
 			"uppercase":    self._processUppercase,
 			"version":      self._processVersion,
+			"html:br":      self._processBR,
 		}
 
 	def bootstrap(self, brainFile = None, learnFiles = [], commands = []):
@@ -1046,6 +1047,15 @@ class Kernel:
 		interpreter.
 		"""
 		return self.version()
+		
+	   # <html:br>
+ 	def _processBR(self,elem, sessionID):
+       		"""Process a <html:br> AIML element.
+
+        	<html:br> elements return the new-line.
+        	"""
+        	return "\n"
+
 
 
 ##################################################

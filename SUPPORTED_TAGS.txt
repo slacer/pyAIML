@@ -32,7 +32,13 @@ The following tags are currently supported:
 	<topicstar>
 	<uppercase>
 	<version>
-
+	<html:br>
+	<html:em>
+	<html:b>
+	<html:p>
+	<html:a>
+	<html:img>
+	<html:ul>
 Support for the following tags should be implemented in the next version:
 
 	None

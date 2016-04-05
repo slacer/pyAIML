@@ -444,6 +444,13 @@ class AimlHandler(ContentHandler):
 		"topicstar":    ( [], ["index"], False ),
 		"uppercase":    ( [], [], True ),
 		"version":      ( [], [], False ),
+		"html:br":      ( [], [], False ),
+		"html:em":      ( [], [], True ),
+		"html:b":      	( [], [], True ),
+		"html:p":      ( [], [], True ),
+		"html:a":       ( ["href"], ["target"], True ),
+		"html:img":     ( ["src"], [], True ),
+		"html:ul":      ( [], [], True ),
 	}
 
 	def _validateElemStart(self, name, attr, version):
@@ -502,7 +509,7 @@ class AimlHandler(ContentHandler):
 		# required attributes are dependent upon which attributes are
 		# present in the <condition> parent.
 		elif name=="li":
-			if not (parent=="random" or nonBlockStyleCondition):
+			if not (parent=="random" or parent=="html:ul" or nonBlockStyleCondition):
 				raise AimlParserError, ("Unexpected <li> element contained by <%s> element "%parent)+self._location()
 			if nonBlockStyleCondition:
 				if parentAttr.has_key("name"):
@@ -529,7 +536,7 @@ class AimlHandler(ContentHandler):
 							raise AimlParserError, "Unexpected default <li> element inside <condition> "+self._location()
 						else:
 							self._foundDefaultLiStack[-1] = True
-					elif len(attr) == 2 and attr.has_key("value") and attr.has_key("name"):
+					elif len(attr) == 2 and attr.has_keyf("value") and attr.has_key("name"):
 						pass # this is the valid case
 					else:
 						raise AimlParserError, "Invalid <li> inside multi-predicate <condition> "+self._location()
